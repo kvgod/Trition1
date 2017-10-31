@@ -14,7 +14,51 @@ import com.technophillia.test.vo.BalanceSheetBean;
 import com.technophillia.test.vo.MemberBean;
 
 public class ModelDao {
+	
+	
+	public static String addNewThriftReceipt(String memberId, String amountPaid,String transactionDescription){
+		
+		SessionFactory sessionFactory = null;
+		Session session = null;
+		Transaction tx = null;
+		try 
+		{
+			sessionFactory = ProjectUtil.getSessionFactory();
 
+			if (sessionFactory == null)
+				throw new RuntimeException("Oops theres been a problem. Cannot connect to DB! Contact Admin!!");
+			else 
+			{
+				session = sessionFactory.openSession();
+				tx = session.beginTransaction();
+				System.out.println("session established");
+				
+				/*session.persist();
+				tx.commit();*/
+				
+				return "success";
+				
+			}
+		}
+		catch(TransactionException e){
+			System.out.println(">>>>>>>>>>>>>addAdminUser exception occured"+e.getMessage());
+			return "error:"+e.getMessage();
+		}
+		catch(RuntimeException e){
+			System.out.println(">>>>>>>>>>>>>addAdminUser exception occured"+e.getMessage());
+			return "error:"+e.getMessage();
+		}
+		finally{
+			
+			if(session!=null)
+				session.close();			
+		}
+		
+		
+		
+		return null;
+	}
+	
 	public static String addNewMemberToGroup(String memberId,String memberName, String memberContactNumber,String memberEmailId,String memberAddress,String memberDOB){
 		
 		System.out.println("<-----ModelDao addNewMemberToGroup()---->");
@@ -60,6 +104,7 @@ public class ModelDao {
 				bean1.setShareCapitalCurrentBalance(Integer.toString(0));
 				bean1.setShareCapitalCurrentYear(Integer.toString(0));
 				bean1.setShareCapitalOpeningBalance(Integer.toString(0));
+				
 				bean1.setThriftCurrentBalance(Integer.toString(0));
 				bean1.setThriftCurrentYear(Integer.toString(0));
 				bean1.setThriftInterest(Integer.toString(0));
