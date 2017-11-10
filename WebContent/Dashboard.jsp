@@ -24,7 +24,7 @@ if(session.getAttribute("session")!=null)
 
 <br><br>
 
-<a href="RegisterNewMember.jsp">Register a member</a>
+<a href="RegisterMember.jsp">Register a member</a>
 <br><br>
 <a href="viewMembers"> View Member Details</a>
 <br><br>

@@ -36,10 +36,10 @@ public class Controller extends HttpServlet {
     		HttpSession session = request.getSession();
     		String memberId = ProjectUtil.fetchMemberIdFromURL(request.getRequestURI());
     		System.out.println("Lets Check the MemeberID:"+memberId);
-    		List<MemberBean> result = ModelDao.fetchMemberDetailsBasedOnMemberId(memberId);
+    		List<BalanceSheetBean> result = ModelDao.fetchMemberDetailsBasedOnMemberId(memberId);
     		if(result.size()!=0){
     			request.setAttribute("member_details", result);
-    			RequestDispatcher rd=request.getRequestDispatcher("EditMemberDetails.jsp");
+    			RequestDispatcher rd=request.getRequestDispatcher("MemberBalanceSheetDetails.jsp");
     			rd.forward(request, response);	
     			
     		}else{

@@ -77,7 +77,7 @@ int i=1;
 for(BalanceSheetBean bean: result){
 	%>
 			<tr><td><%=i%></td>
-				<td><%=bean.getMemberId()%></td>
+				<td><a href="APKGK<%=bean.getMemberId()%>QAZ"><%=bean.getMemberId()%></a></td>
 				<td><%=bean.getMemberName()%></td>
 				<td><%=bean.getShareCapitalOpeningBalance()%></td>
 				<td><%=bean.getShareCapitalCurrentYear()%></td>

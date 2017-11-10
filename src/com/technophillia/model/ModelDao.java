@@ -15,7 +15,7 @@ import com.technophillia.test.vo.MemberBean;
 
 public class ModelDao {
 	
-	public static List<MemberBean> fetchMemberDetailsBasedOnMemberId(String memberId){
+	public static List<BalanceSheetBean> fetchMemberDetailsBasedOnMemberId(String memberId){
 		SessionFactory sessionFactory = null;
 		Session session = null;
 		Transaction tx = null;
@@ -29,8 +29,8 @@ public class ModelDao {
 				session = sessionFactory.openSession();
 				System.out.println("session established");
 				tx=session.beginTransaction();
-				Query query = session.createQuery("select bean from MemberBean as bean where memberId=:value1").setParameter("value1", memberId);
-				List<MemberBean> result=query.list();
+				Query query = session.createQuery("select bean from BalanceSheetBean as bean where memberId=:value1").setParameter("value1", memberId);
+				List<BalanceSheetBean> result=query.list();
 				
 				System.out.println("<------------------->"+result);
 				
