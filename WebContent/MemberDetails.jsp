@@ -24,6 +24,18 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 </style>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<script>
+
+$(document).ready(function(){
+    $('#myTable').DataTable();
+});
+
+</script>
+
 </head>
 <body>
 <%
@@ -31,7 +43,47 @@ HttpSession sess = request.getSession();
 System.out.println("session.getAttribute(session)"+session.getAttribute("session"));
 if(session.getAttribute("session")!=null){
 %>
-<table><tr><th>Sl No</th><th>Member Id</th><th>Member Name</th><th>Contact Number</th><th>E-Mail ID</th><th>Date of Birth</th><th>Address</th></tr>
+
+<!-- 
+	<script>  
+	var request=new XMLHttpRequest();  
+	
+	function searchInfo()
+	{  
+		var name=document.vinform.name.value;  
+		var url="/Hibernateproject1/viewSpecificMembers?name="+name;  
+		  
+		try{  
+			request.onreadystatechange=function()
+			{  
+				if(request.readyState==4)
+				{  
+				var val=request.responseText;  
+				document.getElementById('mylocation').innerHTML=val;  
+				}  
+			}//end of function  
+			
+			request.open("GET",url,true);  
+			request.send();  
+		}catch(e){alert("Unable to connect to server");}  
+	}  
+	</script>
+-->
+
+
+  
+</head>  
+<body>
+<h3>Search</h3>  
+<form name="vinform">  
+<input type="text" name="name" onkeyup="searchInfo()">  
+</form>  
+
+
+<span id="mylocation"></span>  
+
+
+<table id="mytable"><tr><th>Sl No</th><th>Member Id</th><th>Member Name</th><th>Contact Number</th><th>E-Mail ID</th><th>Date of Birth</th><th>Address</th></tr>
 <%
 List<MemberBean> result = (List)request.getAttribute("member_details");
 int i=1;

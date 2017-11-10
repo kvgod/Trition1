@@ -7,6 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Balance Sheet</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+
 <style>
 table {
     font-family: arial, sans-serif;
@@ -24,6 +28,15 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 </style>
+<script type="text/javascript">
+$(document).ready(function(){
+	alert("Lets See");
+    $('#example').DataTable({
+    	  "scrollX": true
+    });
+});
+
+</script>
 </head>
 <body>
 <%
@@ -31,7 +44,10 @@ HttpSession sess = request.getSession();
 System.out.println("session.getAttribute(session)"+session.getAttribute("session"));
 if(session.getAttribute("session")!=null){
 %>
-		<table><tr>
+		<table id="example" class="display" cellspacing="0" width="100%">
+		<thead>
+		<tr>
+		
 		<th>Sl No</th>
 		<th>Member Id</th>
 		<th>Member Name</th>
@@ -53,6 +69,8 @@ if(session.getAttribute("session")!=null){
 		<th>Admission Fees</th>
 		<th>Dividend</th>
 		</tr>
+		</thead>
+		<tbody>
 <%
 List<BalanceSheetBean> result = (List)request.getAttribute("member_details");
 int i=1;
@@ -83,6 +101,7 @@ for(BalanceSheetBean bean: result){
 i++;
 }
 %>
+</tbody>
 </table>
 
 

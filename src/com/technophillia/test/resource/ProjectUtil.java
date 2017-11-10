@@ -13,6 +13,14 @@ import org.hibernate.cfg.AnnotationConfiguration;
 
 public class ProjectUtil 
 {
+	public static String fetchMemberIdFromURL(String uri){
+	
+		
+		String splituri[] = uri.replace("APKGK", "").trim().replace("QAZ", "").trim().split("/");
+		
+		return splituri[splituri.length-1];
+	}
+	
 	public static SessionFactory getSessionFactory()
 	{
 		SessionFactory sessionFactory = null;

@@ -15,6 +15,41 @@ import com.technophillia.test.vo.MemberBean;
 
 public class ModelDao {
 	
+	public static List<MemberBean> fetchMemberDetailsBasedOnMemberId(String memberId){
+		SessionFactory sessionFactory = null;
+		Session session = null;
+		Transaction tx = null;
+		try 
+		{
+			sessionFactory = ProjectUtil.getSessionFactory();
+
+			if (sessionFactory == null)
+				throw new RuntimeException("Oops theres been a problem. Cannot connect to DB! Contact Admin!!");
+			else {
+				session = sessionFactory.openSession();
+				System.out.println("session established");
+				tx=session.beginTransaction();
+				Query query = session.createQuery("select bean from MemberBean as bean where memberId=:value1").setParameter("value1", memberId);
+				List<MemberBean> result=query.list();
+				
+				System.out.println("<------------------->"+result);
+				
+				return result;
+			}
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("Oops something bad happened msg = " + e.getMessage());
+		} finally {
+			if (session != null)
+				session.close();
+			if (sessionFactory != null)
+				sessionFactory.close();
+		}
+		
+		
+		
+	}
 	
 	public static String addNewThriftReceipt(String memberId, String amountPaid,String transactionDescription){
 		
@@ -55,8 +90,7 @@ public class ModelDao {
 		}
 		
 		
-		
-		return null;
+	
 	}
 	
 	public static String addNewMemberToGroup(String memberId,String memberName, String memberContactNumber,String memberEmailId,String memberAddress,String memberDOB){
@@ -235,7 +269,40 @@ public class ModelDao {
 				sessionFactory.close();
 		}
 	
-	
+	}
+	public static List<MemberBean> viewMemberDetails(String key) {
+		SessionFactory sessionFactory = null;
+		Session session = null;
+		Transaction tx = null;
+		try 
+		{
+			sessionFactory = ProjectUtil.getSessionFactory();
+
+			if (sessionFactory == null)
+				throw new RuntimeException("Oops theres been a problem. Cannot connect to DB! Contact Admin!!");
+			else {
+				session = sessionFactory.openSession();
+				System.out.println("session established");
+				tx=session.beginTransaction();
+				//Query query = session.createQuery("select bean from MemberBean as bean where member_id "+key+" OR member_name LIKE "+key+" OR contact_number LIKE "+key+" OR email LIKE "+key+" OR dob LIKE "+key+"");
+				Query query = session.createQuery("select bean from MemberBean as bean where member_id="+key);
+				List<MemberBean> result=query.list();
+				
+				System.out.println("<-------Lets see what the list has---AJAX--viewMemberDetails-- ------------>"+result);
+				
+			
+				return result;
+			}
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("Oops something bad happened msg = " + e.getMessage());
+		} finally {
+			if (session != null)
+				session.close();
+			if (sessionFactory != null)
+				sessionFactory.close();
+		}
 	}
 
 	public static List<MemberBean> viewMemberDetails() {

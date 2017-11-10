@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Pragma" content="no-cache">
 <title>Admin Dashboard</title>
 </head>
 <body>
@@ -23,11 +24,10 @@ if(session.getAttribute("session")!=null)
 
 <br><br>
 
-<a href="RegisterMember.jsp">Register a member</a>
+<a href="RegisterNewMember.jsp">Register a member</a>
 <br><br>
 <a href="viewMembers"> View Member Details</a>
 <br><br>
-<a href="receipt"> Receipt</a>
 <br>
 <br>
 <a href="viewBalanceSheet">View Balance Sheet</a>

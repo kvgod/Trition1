@@ -26,11 +26,39 @@ public class Controller extends HttpServlet {
     public Controller() {
         super();
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    
+    
+    protected void process(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+    	/*
+    	 * ==========================START GET REQUESTS======================================================
+    	 */
+    	if(request.getRequestURI().contains("APKGK")){
+    		HttpSession session = request.getSession();
+    		String memberId = ProjectUtil.fetchMemberIdFromURL(request.getRequestURI());
+    		System.out.println("Lets Check the MemeberID:"+memberId);
+    		List<MemberBean> result = ModelDao.fetchMemberDetailsBasedOnMemberId(memberId);
+    		if(result.size()!=0){
+    			request.setAttribute("member_details", result);
+    			RequestDispatcher rd=request.getRequestDispatcher("EditMemberDetails.jsp");
+    			rd.forward(request, response);	
+    			
+    		}else{
+    			request.setAttribute("message", "There was a problem fetching the userDetails, Please Contact Support");
+    			RequestDispatcher rd=request.getRequestDispatcher("BalanceSheet.jsp");
+    			rd.forward(request, response);	
+    		}
+    		
+    	}
+    	if(request.getRequestURI().contains("viewSpecificMembers")){
+			HttpSession session = request.getSession();
+			String key=request.getParameter("name");
+			System.out.println("Inside key search member block------>");
+			List<MemberBean> members = ModelDao.viewMemberDetails(key);
+			request.setAttribute("member_details", members);
+			RequestDispatcher rd=request.getRequestDispatcher("MemberDetails.jsp");
+			rd.forward(request, response);			
+		}
+		
 		if(request.getRequestURI().contains("logout")){
 			HttpSession session = request.getSession();
 			session.invalidate();
@@ -80,14 +108,14 @@ public class Controller extends HttpServlet {
 		if(request.getRequestURI().contains("createReceipt")){
 			request.getRequestDispatcher("Receipt.jsp").forward(request, response);
 		}
+    	/*
+    	 * =================================== END GET REQUESTS======================================================
+    	 */
+    	
 		
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		/*
+    	 * ==========================START POST REQUESTS======================================================
+    	 */
 		
 		if(request.getRequestURI().contains("addAdminUser"))
 		{
@@ -134,7 +162,8 @@ public class Controller extends HttpServlet {
 		
 		}
 		
-		if(request.getRequestURI().contains("addNewMember")){
+		if(request.getRequestURI().contains("addNewMember"))
+		{
 			System.out.println("requestURI ==>"+request.getRequestURI());
 			
 			String memberId = request.getParameter("memberId");
@@ -156,6 +185,26 @@ public class Controller extends HttpServlet {
 		}
 	
 		
+		/*
+    	 * ==========================END POST REQUESTS======================================================
+    	 */
+		
+		
+    	
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		process(request,response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		process(request,response);		
 	}
 
 }

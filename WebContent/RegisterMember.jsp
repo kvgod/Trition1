@@ -7,7 +7,14 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div class="form-container" style="position: absolute;margin: auto;top: 0; right: 0; bottom: 0; left: 0; width: 100px; height: 100px; border: 2px solid black;border-radius: 6px; width:30%;">
+<%
+
+HttpSession sess = request.getSession();
+System.out.println("session.getAttribute(session)"+session.getAttribute("session"));
+if(session.getAttribute("session")!=null)
+{
+%>
+
 	<form action="addNewMember" method="post">
 		
 		Member Id:<input type="text" id="member_id" name="memberId" placeholder="Member Id" required><br><br>
@@ -25,6 +32,13 @@
 		<input type="submit" value="Submit">
 		
 	</form>
-</div>
+
+<%
+}
+else{
+	response.sendRedirect("AdminLogin.jsp");
+}
+%>
+
 </body>
 </html>
