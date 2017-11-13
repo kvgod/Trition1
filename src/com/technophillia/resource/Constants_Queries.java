@@ -1,4 +1,4 @@
-package com.technophillia.test.resource;
+package com.technophillia.resource;
 
 public class Constants_Queries 
 {

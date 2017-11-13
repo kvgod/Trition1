@@ -1,4 +1,4 @@
-package com.technophillia.test.resource;
+package com.technophillia.resource;
 
 import java.security.Key;
 import java.sql.Connection;

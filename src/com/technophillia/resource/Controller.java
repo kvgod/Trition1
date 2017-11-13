@@ -1,6 +1,7 @@
-package com.technophillia.test.resource;
+package com.technophillia.resource;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
 import com.technophillia.model.ModelDao;
 import com.technophillia.test.vo.BalanceSheetBean;
 import com.technophillia.test.vo.MemberBean;
@@ -32,6 +34,34 @@ public class Controller extends HttpServlet {
     	/*
     	 * ==========================START GET REQUESTS======================================================
     	 */
+    	
+    	if(request.getRequestURI().contains("searchAjax"))
+    	{
+    		
+    		 response.setContentType("application/json");
+             try {
+                     String term = request.getParameter("term");
+                     System.out.println("Data from ajax call " + term);
+
+                     
+                     ArrayList<BalanceSheetBean> list = ModelDao.getAjaxFrameWork(term);
+                     
+                     List<String> memberNames = new ArrayList<>();
+                     
+                     for(BalanceSheetBean name:list){
+                    	 memberNames.add(name.getMemberName());
+                     }
+
+                     //String searchList = new Gson().toJson(list);
+                     String searchList = new Gson().toJson(memberNames);
+                     request.setAttribute("member_details", list);
+                     response.getWriter().write(searchList);
+             } catch (Exception e) {
+                     System.err.println(e.getMessage());
+             }	
+    		
+    	}
+    	
     	if(request.getRequestURI().contains("APKGK")){
     		HttpSession session = request.getSession();
     		String memberId = ProjectUtil.fetchMemberIdFromURL(request.getRequestURI());
@@ -146,6 +176,7 @@ public class Controller extends HttpServlet {
 				HttpSession session = request.getSession(true);
 				session.setAttribute("session", "valid_user");
 				request.setAttribute("success", result);
+				//RequestDispatcher rd=request.getRequestDispatcher("NewDashboard.jsp");
 				RequestDispatcher rd=request.getRequestDispatcher("Dashboard.jsp");
 				rd.forward(request, response);
 				

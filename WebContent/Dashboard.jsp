@@ -36,7 +36,7 @@ if(session.getAttribute("session")!=null)
 <a href="viewMembers"> View Member Details</a>
 <br>
 <br>
-<a href="createReceipt">Receipt</a>
+<a href="Receipt.jsp">Receipt</a>
 <br>
 <br>
 

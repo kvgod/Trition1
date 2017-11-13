@@ -1,5 +1,9 @@
 package com.technophillia.model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -8,12 +12,44 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.TransactionException;
-import com.technophillia.test.resource.ProjectUtil;
+
+import com.technophillia.resource.ProjectUtil;
 import com.technophillia.test.vo.AdminBean;
 import com.technophillia.test.vo.BalanceSheetBean;
 import com.technophillia.test.vo.MemberBean;
 
 public class ModelDao {
+	
+	public static ArrayList<BalanceSheetBean> getAjaxFrameWork(String input) {
+		System.out.println("ModelDao getAjaxFrameWork---> input param:"+input);
+		SessionFactory sessionFactory = null;
+		Session session = null;
+		Transaction tx = null;
+		ArrayList<BalanceSheetBean> result= new ArrayList<BalanceSheetBean>();
+        sessionFactory = ProjectUtil.getSessionFactory();
+
+		if (sessionFactory == null)
+			throw new RuntimeException("Oops theres been a problem. Cannot connect to DB! Contact Admin!!");
+		else 
+		{
+			
+			session = sessionFactory.openSession();
+			System.out.println("session established");
+			try{
+				tx=session.beginTransaction();
+			
+			Query query = session.createQuery("select bean from BalanceSheetBean as bean where member_id LIKE :value1 OR member_name LIKE :value1").setParameter("value1", "%"+ input+"%");
+			result=(ArrayList<BalanceSheetBean>) query.list();
+			
+			System.out.println("<------------------->"+result);
+			}
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+		}
+	}
+	
 	
 	public static List<BalanceSheetBean> fetchMemberDetailsBasedOnMemberId(String memberId){
 		SessionFactory sessionFactory = null;
