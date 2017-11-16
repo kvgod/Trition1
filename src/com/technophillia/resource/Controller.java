@@ -177,7 +177,7 @@ public class Controller extends HttpServlet {
 				session.setAttribute("session", "valid_user");
 				request.setAttribute("success", result);
 				//RequestDispatcher rd=request.getRequestDispatcher("NewDashboard.jsp");
-				RequestDispatcher rd=request.getRequestDispatcher("Dashboard.jsp");
+				RequestDispatcher rd=request.getRequestDispatcher("DashboardW3.jsp");
 				rd.forward(request, response);
 				
 			}else if (result.contains("error: Invalid Password for the user")) {

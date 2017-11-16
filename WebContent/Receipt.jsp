@@ -146,13 +146,8 @@ if(session.getAttribute("session")!=null)
 		
 <%
 
-
-
-
-List<BalanceSheetBean> result = (List)request.getAttribute("member_details");
-
+	List<BalanceSheetBean> result = (List)request.getAttribute("member_details");
 	System.out.println(result);
-
 
 %>
 		
