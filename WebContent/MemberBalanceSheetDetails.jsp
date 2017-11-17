@@ -52,9 +52,6 @@ font-size:12px;
   padding-top: 40px;
 }
 
-
-
-
 .form-group{
   margin-top: 10px;
 }
@@ -104,6 +101,8 @@ cursor:pointer;
 <%
 HttpSession sess = request.getSession();
 System.out.println("session.getAttribute(session)"+session.getAttribute("session"));
+System.out.println("session.getId()"+session.getId());
+System.out.println("session.getMaxInactiveInterval()"+session.getMaxInactiveInterval());
 if(session.getAttribute("session")!=null){
 %>
 

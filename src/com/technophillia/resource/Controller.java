@@ -35,6 +35,27 @@ public class Controller extends HttpServlet {
     	 * ==========================START GET REQUESTS======================================================
     	 */
     	
+    	
+    	if(request.getRequestURI().contains("editSpecificMember"))
+    	{
+    		HttpSession session = request.getSession(true);
+    		String memberName = request.getParameter("search");
+            System.out.println("Data For Receipt/Payment " + memberName); 
+            List<BalanceSheetBean> result = ModelDao.fetchMemberBasedOnName(memberName);
+             
+    		if(result.size()!=0){
+    			request.setAttribute("member_details", result);
+    			RequestDispatcher rd=request.getRequestDispatcher("Receipt.jsp");
+    			rd.forward(request, response);	
+    			
+    		}else{
+    			request.setAttribute("message", "Requested User not available, Would you like to register a new user?"+"<a href='RegisterNewMember.jsp'>Register Here</a>");
+    			RequestDispatcher rd=request.getRequestDispatcher("SearchMember.jsp");
+    			rd.forward(request, response);	
+    		}
+             
+    	}
+    	
     	if(request.getRequestURI().contains("searchAjax"))
     	{
     		
@@ -91,6 +112,8 @@ public class Controller extends HttpServlet {
 		
 		if(request.getRequestURI().contains("logout")){
 			HttpSession session = request.getSession();
+			request.logout();
+			session.removeAttribute("session");
 			session.invalidate();
 			
 			System.out.println("Inside logout block------>");
@@ -136,7 +159,8 @@ public class Controller extends HttpServlet {
 			
 		}
 		if(request.getRequestURI().contains("createReceipt")){
-			request.getRequestDispatcher("Receipt.jsp").forward(request, response);
+			System.out.println("Uri:"+request.getRequestURI());
+			request.getRequestDispatcher("SearchMember.jsp").forward(request, response);
 		}
     	/*
     	 * =================================== END GET REQUESTS======================================================
@@ -146,6 +170,30 @@ public class Controller extends HttpServlet {
 		/*
     	 * ==========================START POST REQUESTS======================================================
     	 */
+		if(request.getRequestURI().contains("receiptCheck"))
+		{
+			HttpSession session =request.getSession();
+			System.out.println("requestURI ==>"+request.getRequestURI());
+			
+			String memberId = request.getParameter("memberId");
+			String memberName = request.getParameter("memberName");
+			String transactionHead = request.getParameter("headValue");
+			String paymentValue = request.getParameter("paymentValue");
+			String transactionDate = request.getParameter("transaction_date");
+			String transactionDescription = request.getParameter("transactionDescription");
+			
+			String result = ModelDao.updateReceipt(memberId, memberName, transactionHead, paymentValue, transactionDate, transactionDescription);
+			
+			if(result.equals("success"))
+			{
+				request.setAttribute("success", "Successfully Added a new member");
+				RequestDispatcher rd=request.getRequestDispatcher("DashboardW3.jsp");
+				rd.forward(request, response);
+			}
+			
+		}
+		
+		
 		
 		if(request.getRequestURI().contains("addAdminUser"))
 		{
@@ -174,6 +222,7 @@ public class Controller extends HttpServlet {
 			if(result.contains("success")){
 				System.out.println("result is equal to success");
 				HttpSession session = request.getSession(true);
+				session.setMaxInactiveInterval(180);
 				session.setAttribute("session", "valid_user");
 				request.setAttribute("success", result);
 				//RequestDispatcher rd=request.getRequestDispatcher("NewDashboard.jsp");
@@ -209,12 +258,11 @@ public class Controller extends HttpServlet {
 			if(result.equals("success"))
 			{
 				request.setAttribute("success", "Successfully Added a new member");
-				RequestDispatcher rd=request.getRequestDispatcher("Dashboard.jsp");
+				RequestDispatcher rd=request.getRequestDispatcher("DashboardW3.jsp");
 				rd.forward(request, response);
 			}
 			
-		}
-	
+		}	
 		
 		/*
     	 * ==========================END POST REQUESTS======================================================

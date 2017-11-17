@@ -1,20 +1,29 @@
 package com.technophillia.test.vo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="share_capital_account")
 public class ShareCapitalBean 
 {
 
 	//============START Variables =========================
-	
+	@Id
+	@Column(name="sl_no")
 	private int slNo;
 	
+	@Column(name="sc_transaction_desc")
 	private String transactionDescription;
-	
+	@Column(name="sc_account_credit")
 	private String shareCapitalCredit;
-	
+	@Column(name="sc_account_debit")
 	private String shareCapitalDebit;
-	
+	@Column(name="sc_account_balance")
 	private String shareCapitalBalance;
-	
+	@Column(name="transaction_date")
 	private String transactionDate;
 	
 	

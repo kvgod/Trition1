@@ -50,6 +50,40 @@ public class ModelDao {
 		}
 	}
 	
+	public static List<BalanceSheetBean> fetchMemberBasedOnName(String memberName){
+		
+		SessionFactory sessionFactory = null;
+		Session session = null;
+		Transaction tx = null;
+		List<BalanceSheetBean> result=new ArrayList<BalanceSheetBean>();
+		try 
+		{
+			sessionFactory = ProjectUtil.getSessionFactory();
+
+			if (sessionFactory == null)
+				throw new RuntimeException("Oops theres been a problem. Cannot connect to DB! Contact Admin!!");
+			else 
+			{
+				session = sessionFactory.openSession();
+				System.out.println("session established");
+				tx=session.beginTransaction();
+				Query query = session.createQuery("select bean from BalanceSheetBean as bean where member_name=:value1").setParameter("value1", memberName);
+				result=query.list();
+				tx.commit();
+				session.close();
+				System.out.println("<------------------->"+result);
+					
+			}
+		
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			return result;
+		}
+	}
+	
 	
 	public static List<BalanceSheetBean> fetchMemberDetailsBasedOnMemberId(String memberId){
 		SessionFactory sessionFactory = null;
@@ -87,7 +121,7 @@ public class ModelDao {
 		
 	}
 	
-	public static String addNewThriftReceipt(String memberId, String amountPaid,String transactionDescription){
+	public static String updateReceipt(String memberId, String memberName, String transactionHead, String paymentValue, String transactionDate,String transactionDescription){
 		
 		SessionFactory sessionFactory = null;
 		Session session = null;
@@ -103,6 +137,29 @@ public class ModelDao {
 				session = sessionFactory.openSession();
 				tx = session.beginTransaction();
 				System.out.println("session established");
+				
+				
+				BalanceSheetBean bean = new BalanceSheetBean();
+				
+				bean.setMemberId(memberId);
+				bean.setMemberName(memberName);
+				bean.setThriftCurrentYear(paymentValue);
+				
+				if(transactionHead.equals("monthly_thrift"))
+				{
+					
+					
+					
+					
+				}
+				if(transactionHead.equals("loan_repayment"))
+				{
+					
+					
+					
+					
+				}
+				
 				
 				/*session.persist();
 				tx.commit();*/

@@ -22,7 +22,7 @@
   <link rel="stylesheet" type="text/css"  href="assets/theme/css/style.css">
   <link rel="stylesheet" type="text/css"  href="assets/mobirise/css/mbr-additional.css" >
  -->
-<style type="text/css"> 
+<%-- <style type="text/css"> 
 <%@include file="assets/web/assets/mobirise-icons-bold/mobirise-icons-bold.css" %>
 <%@include file="assets/web/assets/mobirise-icons/mobirise-icons.css" %>
 <%@include file="assets/tether/tether.min.css"%>
@@ -34,7 +34,7 @@
 <%@include file="assets/theme/css/style.css" %>
 <%@include file="assets/mobirise/css/mbr-additional.css" %>
 
-</style>
+</style> --%>
 
 
 </head>

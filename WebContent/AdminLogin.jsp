@@ -11,6 +11,9 @@
 <body>
 	<h1>Welcome to Admin home page</h1>
 	
+	<img alt="Check Image" src="asset/logo.png">
+	
+	
 	<form action="checkAdmin" method="post">
 		Enter your MemberId: <input type="text" name="username" id="mail"/>
 		<br> Enter your password: <input type="password" name="password" id="passw"/>

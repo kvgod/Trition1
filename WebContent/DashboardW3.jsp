@@ -1,45 +1,48 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
 <title>Admin Console</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.0.0/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <body>
-<%
-HttpSession sess = request.getSession();
-System.out.println("session.getAttribute(session)"+session.getAttribute("session"));
-if(session.getAttribute("session")!=null)
-{
-%>
+
 <style>
 body {font-family: "Roboto", sans-serif}
 .w3-bar-block .w3-bar-item{padding:16px;font-weight:bold}
 </style>
 <body>
+<%
+
+HttpSession sess = request.getSession();
+System.out.println("session.getAttribute(session)"+session.getAttribute("session"));
+if(session.getAttribute("session")!=null)
+{
+%>
 
 <nav class="w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card" style="z-index:3;width:250px;" id="mySidebar">
-  <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="#"><img src="asset/logo.png" style="width:60%;"></a>
+  <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="#"><img src="logo.png" style="width:60%;"></a>
   <a class="w3-bar-item w3-button w3-hide-large w3-large" href="javascript:void(0)" onclick="w3_close()">Close <i class="fa fa-remove"></i></a>
   <a class="w3-bar-item w3-button w3-teal" href="#">Home</a>
   <a class="w3-bar-item w3-button" href="#">Link 1</a>
-  <a class="w3-bar-item w3-button" href="#">Logout<span>&nbsp&nbsp</span><i class="glyphicon glyphicon-arrow-right"></i></a>
- <!--  <a class="w3-bar-item w3-button" href="#">Link 3</a>
-  <a class="w3-bar-item w3-button" href="#">Link 4</a>
-  <a class="w3-bar-item w3-button" href="#">Link 5</a> -->
-  <!-- <div>
-    <a class="w3-bar-item w3-button" onclick="myAccordion('demo')" href="javascript:void(0)">Dropdown <i class="fa fa-caret-down"></i></a>
+  <div>
+    <a class="w3-bar-item w3-button" onclick="myAccordion('demo')" href="javascript:void(0)">Receipts <i class="fa fa-caret-down"></i></a>
     <div id="demo" class="w3-hide">
-      <a class="w3-bar-item w3-button" href="#">Link</a>
+      <a class="w3-bar-item w3-button" href="">Quick Monthly Thrift</a>
       <a class="w3-bar-item w3-button" href="#">Link</a>
       <a class="w3-bar-item w3-button" href="#">Link</a>
     </div>
-  </div> -->
+  </div> 
+  <a class="w3-bar-item w3-button" href="logout">Logout<span>&nbsp&nbsp</span><i class="glyphicon glyphicon-arrow-right"></i></a>
+ <!--  <a class="w3-bar-item w3-button" href="#">Link 3</a>
+  <a class="w3-bar-item w3-button" href="#">Link 4</a>
+  <a class="w3-bar-item w3-button" href="#">Link 5</a> -->
+  
 </nav>
 
 <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" id="myOverlay"></div>
@@ -95,13 +98,13 @@ Albert Einstein</p>
 <div class="w3-panel w3-light-grey w3-padding-16 w3-card">
 <h3 class="w3-center">Members</h3>
 <div class="w3-content" style="max-width:800px">
-<a href="tryw3css_templates_band.htm" target="_blank"  title="Members Arena"><img src="asset/dm_graphic.jpg" style="width:98%;margin:20px 0" alt="Members Arena"></a><br>
+<a href="#" target="_blank"  title="Members Arena"><img src="asset/dm_graphic.jpg" style="width:98%;margin:20px 0" alt="Members Arena"></a><br>
 <div class="w3-row">
   <div class="w3-col m6">
-    <a href="tryw3css_templates_band.htm" target="_blank" class="w3-button w3-padding-large w3-dark-grey" style="width:98.5%">Register New Member</a>
+    <a href="RegisterNewMember.jsp" target="_blank" class="w3-button w3-padding-large w3-dark-grey" style="width:98.5%">Register New Member</a>
   </div>
   <div class="w3-col m6">
-    <a href="w3css_templates.asp" class="w3-button w3-padding-large w3-dark-grey" style="width:98.5%">View Existing Members »</a>
+    <a href="viewMembers" class="w3-button w3-padding-large w3-dark-grey" style="width:98.5%">View Existing Members »</a>
   </div>
 </div>
 </div>
@@ -110,13 +113,13 @@ Albert Einstein</p>
 <div class="w3-container w3-padding-16 w3-card" style="background-color:#eee">
 <h3 class="w3-center">Accounts</h3>
 <div class="w3-content" style="max-width:800px">
-<img src="asset/Accounts.jpg" style="width:98%;margin:20px 0" alt="Blog Template"><br>
+<img src="<%=request.getContextPath()%>/asset/Accounts.jpg" style="width:98%;margin:20px 0" alt="Accounts"><br>
 <div class="w3-row">
   <div class="w3-col m6">
-    <a href="tryw3css_templates_blog.htm" target="_blank" class="w3-button w3-padding-large w3-dark-grey" style="width:98.5%">Add Receipt/Payment</a>
+    <a href="createReceipt" target="_blank" class="w3-button w3-padding-large w3-dark-grey" style="width:98.5%">Add Receipt/Payment</a>
   </div>
   <div class="w3-col m6">
-    <a href="w3css_templates.asp" class="w3-button w3-padding-large w3-dark-grey" style="width:98.5%">View Balance Sheet »</a>
+    <a href="viewBalanceSheet" class="w3-button w3-padding-large w3-dark-grey" style="width:98.5%">View Balance Sheet »</a>
   </div>
 </div>
 </div>
@@ -166,6 +169,7 @@ function myAccordion(id) {
     }
 }
 </script>
+
 <%
 }
 else{

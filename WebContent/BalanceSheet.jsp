@@ -29,8 +29,7 @@ tr:nth-child(even) {
 }
 </style>
 <script type="text/javascript">
-$(document).ready(function(){
-	alert("Lets See");
+$(document).ready(function(){	
     $('#example').DataTable({
     	  "scrollX": true
     });

@@ -6,7 +6,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
 <style>
 table {
     font-family: arial, sans-serif;
@@ -24,14 +30,11 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 </style>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="js/jquery.min.js"></script>
-
-<script>
-
-$(document).ready(function(){
-    $('#myTable').DataTable();
+<script type="text/javascript">
+$(document).ready(function(){	
+    $('#mytable').DataTable({
+    	  "scrollX": true
+    });
 });
 
 </script>
@@ -43,53 +46,30 @@ HttpSession sess = request.getSession();
 System.out.println("session.getAttribute(session)"+session.getAttribute("session"));
 if(session.getAttribute("session")!=null){
 %>
-
-<!-- 
-	<script>  
-	var request=new XMLHttpRequest();  
-	
-	function searchInfo()
-	{  
-		var name=document.vinform.name.value;  
-		var url="/Hibernateproject1/viewSpecificMembers?name="+name;  
-		  
-		try{  
-			request.onreadystatechange=function()
-			{  
-				if(request.readyState==4)
-				{  
-				var val=request.responseText;  
-				document.getElementById('mylocation').innerHTML=val;  
-				}  
-			}//end of function  
-			
-			request.open("GET",url,true);  
-			request.send();  
-		}catch(e){alert("Unable to connect to server");}  
-	}  
-	</script>
--->
-
-
   
 </head>  
 <body>
-<h3>Search</h3>  
-<form name="vinform">  
-<input type="text" name="name" onkeyup="searchInfo()">  
-</form>  
 
-
-<span id="mylocation"></span>  
-
-
-<table id="mytable"><tr><th>Sl No</th><th>Member Id</th><th>Member Name</th><th>Contact Number</th><th>E-Mail ID</th><th>Date of Birth</th><th>Address</th></tr>
+<table id="mytable" class="display" cellspacing="0" width="100%">
+<thead>
+<tr>
+<th>Sl No</th>
+<th>Member Id</th>
+<th>Member Name</th>
+<th>Contact Number</th>
+<th>E-Mail ID</th>
+<th>Date of Birth</th>
+<th>Address</th>
+</tr>
+</thead>
+<tbody>
 <%
 List<MemberBean> result = (List)request.getAttribute("member_details");
 int i=1;
 for(MemberBean bean: result){
 	%>
-	<tr><td><%=i%></td>
+	<tr>
+	<td><%=i%></td>
 	<td><%=bean.getMemberId()%></td>
 	<td><%=bean.getMemberName()%></td>
 	<td><%=bean.getMemberContactNumber()%></td>
@@ -101,6 +81,7 @@ for(MemberBean bean: result){
 i++;
 }
 %>
+</tbody>
 </table>
 
 

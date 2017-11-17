@@ -7,44 +7,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="sty.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" 
-  href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-  <script type="text/javascript">
-  $(document).ready(function() 
-	{
-	     $(function() 
-	    {
-	         $("#search").autocomplete(
-	        {
-	             source : function(request, response)
-	             {
-		            $.ajax(
-		            {
-		                    url : "searchAjax",
-		                    type : "GET",
-		                    data : 
-		                    {
-		                           term : request.term
-		                    },
-		                    dataType : "json",
-		                    success : function(data) 
-		                    {
-		                          response(data);
-		                          
-		                    }
-		             });
-	          	}
-	         
-	      });
-	        
-	   });
-	});
-  </script>
+<link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.1.3/css/bootstrap-datetimepicker.min.css">
+
 </head>
-<body>
+
+<body id="contact">
 <style>
 /*Contact sectiom*/
 .content-header{
@@ -54,7 +29,7 @@
 }
 body{
 font-family: Agency FB;
-font-size:25px;
+font-size:10px;
 }
 
 .section-content{
@@ -78,9 +53,6 @@ font-size:25px;
 .contact-section{
   padding-top: 40px;
 }
-
-
-
 
 .form-group{
   margin-top: 10px;
@@ -127,32 +99,103 @@ margin-top: 0px;
 margin-bottom: 0px;
 cursor:pointer;
 }
-
-
 </style>
 <%
-
 HttpSession sess = request.getSession();
 System.out.println("session.getAttribute(session)"+session.getAttribute("session"));
-if(session.getAttribute("session")!=null)
-{
+System.out.println("session.getId()"+session.getId());
+System.out.println("session.getMaxInactiveInterval()"+session.getMaxInactiveInterval());
+if(session.getAttribute("session")!=null){
 %>
 
-	<form action="#" method="post">
-		
-		<div class="search-container">
-        <div class="ui-widget">Search For Member<input type="text" id="search" name="search" class="search" /></div>
-		</div>
-		
 <%
-
-	List<BalanceSheetBean> result = (List)request.getAttribute("member_details");
-	System.out.println(result);
-
+List<BalanceSheetBean> result = (List)request.getAttribute("member_details");
 %>
-		
-		
-	</form>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-6 col-xs-12 form-line">
+				<form name="receiptCheck" method="post" action="receiptCheck">
+				
+					<div class="form-group">
+						<label for="id">Id</label> <input disabled 
+							type="text" class="form-control" id="id" name="memberId"
+							placeholder=" Id" value ="<%=result.get(0).getMemberId()%>">
+					</div>
+
+
+					<div class="form-group">
+						<label for="exampleInputUsername">Member name</label> <input disabled 
+							type="text" class="form-control" id="name" name="memberName"
+							placeholder=" Enter Name" value ="<%=result.get(0).getMemberName()%>">
+					</div>
+					
+					<div class="form-group">
+						<label for="exampleSelectHead">Head</label> 
+						<select name="headValue" class="form-control	">
+							<option value="-1">Select head</option>
+  							<option value="monthly_thrift">Monthly Thrift</option>
+							<option value="loan_repayment">Loan Repayment</option>
+							<option value="#">#</option>
+							<option value="#">#</option>
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label for="id">Rs</label> <input 
+						type="text" class="form-control" id="id" name="paymentValue"
+							placeholder="Payment in Rupees" >
+					</div>
+
+					<div class="form-group">
+					 <label for="dob">Transaction Date</label> 
+               		 <div class='input-group date' id='datetimepicker1'>
+                  		 <input type="date" class="form-control" name="transaction_date" id="transaction_date"/>
+                    	 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                    	</span>
+                	</div>
+           		 	</div>
+           		 	
+           		 	<div class="form-group">
+						<label for="address">Transaction Description</label> <textarea type="text"
+							class="form-control" name="transactionDescription" id="transactionDescription"
+							placeholder=" Address"></textarea>
+					</div>
+
+
+
+					<div>
+
+						<button type="submit" class="btn btn-default submit">
+							<i class="fa fa-paper-plane" aria-hidden="true"></i> Submit
+						</button>
+					</div>
+
+
+				</form>
+			</div>
+
+
+		</div>
+	</div>
+	
+	
+<script>
+$("#share").click(function(){
+    $("#sharecapital").toggle("slow");
+});
+$("#thrift").click(function(){
+    $("#thriftval").toggle("slow");
+});
+$("#recuring").click(function(){
+    $("#recur").toggle("slow");
+});
+$("#loan").click(function(){
+    $("#loandetail").toggle("slow");
+});
+
+
+</script>
+</body>
 
 <%
 }
@@ -160,6 +203,5 @@ else{
 	response.sendRedirect("AdminLogin.jsp");
 }
 %>
-
 </body>
 </html>

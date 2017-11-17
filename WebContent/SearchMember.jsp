@@ -1,20 +1,58 @@
+<%@page import="com.technophillia.test.vo.BalanceSheetBean"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" href="sty.css">
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 <title>Insert title here</title>
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+<link rel="stylesheet" 
+  href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script type="text/javascript">
+  $(document).ready(function() 
+	{
+	     $(function() 
+	    {
+	         $("#search").autocomplete(
+	        {
+	             source : function(request, response)
+	             {
+		            $.ajax(
+		            {
+		                    url : "searchAjax",
+		                    type : "GET",
+		                    data : 
+		                    {
+		                           term : request.term
+		                    },
+		                    dataType : "json",
+		                    success : function(data) 
+		                    {
+		                          response(data);
+		                          
+		                    }
+		             });
+	          	}
+	         
+	      });
+	        
+	   });
+	});
+  </script>
 </head>
 <body>
+<%
+HttpSession sess = request.getSession();
+System.out.println("session.getAttribute(session)"+session.getAttribute("session"));
+System.out.println("session.getId()"+session.getId());
+System.out.println("session.getMaxInactiveInterval()"+session.getMaxInactiveInterval());
+if(session.getAttribute("session")!=null){
+%>
+
 
 <style>
 /*Contact sectiom*/
@@ -101,33 +139,21 @@ cursor:pointer;
 
 
 </style>
-<%
 
-HttpSession sess = request.getSession();
-System.out.println("session.getAttribute(session)"+session.getAttribute("session"));
-if(session.getAttribute("session")!=null)
-{
-%>
 
-	<form action="addNewMember" method="post">
+	<form action="editSpecificMember" method="get">
 		
-		Member Id:<input type="text" id="member_id" name="memberId" placeholder="Member Id" required><br><br>
+		<div class="search-container">
+        <div class="ui-widget">Search For Member<input type="text" id="search" name="search" class="search" /> 
+		<button type="submit">Add Receipt/Payment</button></div>
+		</div>
 		
-		Name:<input type="text" id="member_name" name="memberName" placeholder="Member Name" required><br><br>
 		
-		E-Mail:<input type="text" id="email_id" name="Email" placeholder="Email ID" required><br><br>
-		
-		Contact Number:<input type="text" id="member_contact" name="memberContact" placeholder="Contact Number" required><br><br>
-		
-		Date of Birth:<input type="date" id="date_of_birth" name="dateOfBirth" placeholder="Date Of Birth" required><br><br>
-		
-		Address:<textarea rows="4" cols="25" name="address" placeholder="Please Enter Permanent Address" required></textarea><br>
-		<br>
-		<input type="submit" value="Submit">
 		
 	</form>
-	
 
+<hr>
+${message}
 
 <%
 }

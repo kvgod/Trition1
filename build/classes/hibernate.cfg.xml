@@ -16,6 +16,7 @@
 	 <property name="connection.driver_class">com.mysql.jdbc.Driver</property>  
 	 <property name="show_sql">true</property>   
 	
+		<mapping class="com.technophillia.test.vo.ThriftBean" />
 		<mapping class="com.technophillia.test.vo.BalanceSheetBean" />
 	 <mapping class="com.technophillia.test.vo.MemberBean" />
 	 <mapping class="com.technophillia.test.vo.AdminBean"/>
