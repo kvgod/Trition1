@@ -121,7 +121,7 @@ public class ModelDao {
 		
 	}
 	
-	public static String updateReceipt(String memberId, String memberName, String transactionHead, String paymentValue, String transactionDate,String transactionDescription){
+	public static String updateReceipt(List<BalanceSheetBean> balanceBean,String memberId, String memberName, String transactionHead, String paymentValue, String transactionDate,String transactionDescription){
 		
 		SessionFactory sessionFactory = null;
 		Session session = null;

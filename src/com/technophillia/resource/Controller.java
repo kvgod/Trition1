@@ -181,8 +181,10 @@ public class Controller extends HttpServlet {
 			String paymentValue = request.getParameter("paymentValue");
 			String transactionDate = request.getParameter("transaction_date");
 			String transactionDescription = request.getParameter("transactionDescription");
+			List<BalanceSheetBean> balanceBean =(List<BalanceSheetBean>) request.getAttribute("member_balance_sheet");
 			
-			String result = ModelDao.updateReceipt(memberId, memberName, transactionHead, paymentValue, transactionDate, transactionDescription);
+			
+			String result = ModelDao.updateReceipt(balanceBean,memberId, memberName, transactionHead, paymentValue, transactionDate, transactionDescription);
 			
 			if(result.equals("success"))
 			{

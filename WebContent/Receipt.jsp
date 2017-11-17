@@ -105,11 +105,14 @@ HttpSession sess = request.getSession();
 System.out.println("session.getAttribute(session)"+session.getAttribute("session"));
 System.out.println("session.getId()"+session.getId());
 System.out.println("session.getMaxInactiveInterval()"+session.getMaxInactiveInterval());
+
+
 if(session.getAttribute("session")!=null){
 %>
 
 <%
 List<BalanceSheetBean> result = (List)request.getAttribute("member_details");
+request.setAttribute("member_balance_sheet", result);
 %>
 	<div class="container">
 		<div class="row">
@@ -156,11 +159,10 @@ List<BalanceSheetBean> result = (List)request.getAttribute("member_details");
            		 	</div>
            		 	
            		 	<div class="form-group">
-						<label for="address">Transaction Description</label> <textarea type="text"
+						<label for="description">Transaction Description</label> <textarea type="text"
 							class="form-control" name="transactionDescription" id="transactionDescription"
-							placeholder=" Address"></textarea>
+							placeholder=" Please enter a description for this transaction"></textarea>
 					</div>
-
 
 
 					<div>
