@@ -69,6 +69,7 @@ public class ModelDao {
 				tx=session.beginTransaction();
 				Query query = session.createQuery("select bean from BalanceSheetBean as bean where member_name=:value1").setParameter("value1", memberName);
 				result=query.list();
+			
 				tx.commit();
 				session.close();
 				System.out.println("<------------------->"+result);
@@ -123,9 +124,15 @@ public class ModelDao {
 	
 	public static String updateReceipt(List<BalanceSheetBean> balanceBean,String memberId, String memberName, String transactionHead, String paymentValue, String transactionDate,String transactionDescription){
 		
+		System.out.println("[ModelDao](updateReceipt)-->");
+		
+		System.out.println("Input Params:List<BalanceSheetBean>balanceBean "+balanceBean+" \n ");
+		System.out.println("Input Params:String memberId"+memberId+", String memberName"+memberName+", String transactionHead"+transactionHead+", String paymentValue"+paymentValue+", String transactionDate"+transactionDate+",String transactionDescription "+transactionDescription+" \n ");
+		
 		SessionFactory sessionFactory = null;
 		Session session = null;
 		Transaction tx = null;
+		
 		try 
 		{
 			sessionFactory = ProjectUtil.getSessionFactory();
@@ -138,18 +145,15 @@ public class ModelDao {
 				tx = session.beginTransaction();
 				System.out.println("session established");
 				
+				BalanceSheetBean bean = balanceBean.get(0);
 				
-				BalanceSheetBean bean = new BalanceSheetBean();
-				
-				bean.setMemberId(memberId);
-				bean.setMemberName(memberName);
-				bean.setThriftCurrentYear(paymentValue);
 				
 				if(transactionHead.equals("monthly_thrift"))
 				{
-					
-					
-					
+					Float currentYear = new  Float(balanceBean.get(0).getThriftCurrentYear());
+					Float currentThriftAddition = new Float(paymentValue);
+					Float updatedThriftCurrentYear = currentYear+currentThriftAddition;
+					bean.setThriftCurrentYear(updatedThriftCurrentYear.toString());					
 					
 				}
 				if(transactionHead.equals("loan_repayment"))
@@ -160,9 +164,10 @@ public class ModelDao {
 					
 				}
 				
-				
-				/*session.persist();
-				tx.commit();*/
+				System.out.println("Adding bean"+bean);
+				session.update(bean);
+				//session.persist(bean);
+				tx.commit();
 				
 				return "success";
 				
@@ -289,8 +294,27 @@ public class ModelDao {
 				tx = session.beginTransaction();
 				System.out.println("session established");
 				AdminBean bean = new AdminBean();
-				bean.setUserName(userName);
-				bean.setPassword(password);
+				System.out.println("```````````````````ENCRYPT``````````````````````````````````````");
+				
+				System.out.println("Lets Check UName:  "+ProjectUtil.encryptData(userName));
+				System.out.println("Lets Check Password:  "+ProjectUtil.encryptData(password));
+				
+				
+				System.out.println("`````````````````````````````````````````````````````````````````");
+				
+				
+				System.out.println("`````````````````DECRYPT````````````````````````````````");
+				
+				System.out.println("Lets Check decrypt UName:  "+ProjectUtil.decryptData(ProjectUtil.encryptData(userName)));
+				System.out.println("Lets Check decrypt Password:  "+ProjectUtil.decryptData(ProjectUtil.encryptData(password)));
+				
+				
+				System.out.println("`````````````````````````````````````````````````````````````````");
+				
+				
+				
+				bean.setUserName(ProjectUtil.encryptData(userName));
+				bean.setPassword(ProjectUtil.encryptData(password));
 				
 				System.out.println("loaded values to bean "+bean);
 				
@@ -333,21 +357,22 @@ public class ModelDao {
 				session = sessionFactory.openSession();
 				System.out.println("session established");
 				tx=session.beginTransaction();
-				Query query = session.createQuery("select bean from AdminBean as bean where username=:value1").setParameter("value1", username);
+				System.out.println("Lets check input query param:"+ProjectUtil.encryptData(username));
+				Query query = session.createQuery("select bean from AdminBean as bean where username=:value1").setParameter("value1", ProjectUtil.encryptData(username));
 				List<AdminBean> result=query.list();
 				System.out.println("u:"+username+" P:"+password);
 				System.out.println("<------------------->"+result);
 				if(result.size()!=0)
 				{
-					if(result.get(0).getPassword().equals(password)&& result.get(0).getUserName().equals(username))
+					if(ProjectUtil.decryptData(result.get(0).getPassword()).equals(password)&& ProjectUtil.decryptData(result.get(0).getUserName()).equals(username))
 					{
 						System.out.println(result.get(0));
 						return "success: User validated Successfully";
 					}
-					return "error: Invalid Password for the user "+username;
+					return "error: Invalid Password for the user "+username+ ",Please Retry";
 				}
 				else{
-					return "error: user was not found";
+					return "error:"+ username+" is not a valid user to this portal";
 				}
 			
 			}

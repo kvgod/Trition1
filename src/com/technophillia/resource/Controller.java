@@ -6,12 +6,14 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.technophillia.model.AuditDao;
 import com.technophillia.model.ModelDao;
 import com.technophillia.test.vo.BalanceSheetBean;
 import com.technophillia.test.vo.MemberBean;
@@ -35,6 +37,8 @@ public class Controller extends HttpServlet {
     	 * ==========================START GET REQUESTS======================================================
     	 */
     	
+    try
+    {    	
     	
     	if(request.getRequestURI().contains("editSpecificMember"))
     	{
@@ -155,8 +159,7 @@ public class Controller extends HttpServlet {
 				RequestDispatcher rd=request.getRequestDispatcher("Dashboard.jsp");
 				rd.forward(request, response);
 			}
-			
-			
+						
 		}
 		if(request.getRequestURI().contains("createReceipt")){
 			System.out.println("Uri:"+request.getRequestURI());
@@ -170,6 +173,16 @@ public class Controller extends HttpServlet {
 		/*
     	 * ==========================START POST REQUESTS======================================================
     	 */
+		
+		if(request.getRequestURI().contains("updateBalanceSheet")){
+			HttpSession session =request.getSession();
+			System.out.println("requestURI ==>"+request.getRequestURI());
+			
+			
+			
+		}
+		
+		
 		if(request.getRequestURI().contains("receiptCheck"))
 		{
 			HttpSession session =request.getSession();
@@ -181,21 +194,35 @@ public class Controller extends HttpServlet {
 			String paymentValue = request.getParameter("paymentValue");
 			String transactionDate = request.getParameter("transaction_date");
 			String transactionDescription = request.getParameter("transactionDescription");
-			List<BalanceSheetBean> balanceBean =(List<BalanceSheetBean>) request.getAttribute("member_balance_sheet");
 			
 			
-			String result = ModelDao.updateReceipt(balanceBean,memberId, memberName, transactionHead, paymentValue, transactionDate, transactionDescription);
+			System.out.println("input:::"+memberId+memberName+transactionHead+paymentValue+transactionDate+transactionDescription);
 			
-			if(result.equals("success"))
+			List<BalanceSheetBean> balanceBean =(List<BalanceSheetBean>) request.getSession().getAttribute("member_balance_sheet");
+		
+			System.out.println("******///////////////"+request.getSession(true).getAttribute("member_balance_sheet"));
+		
+			System.out.println("Lets see the list:"+balanceBean);
+			
+			if(balanceBean!=null&&memberId!=null&&memberName!=null&&transactionHead!=null&&paymentValue!=null&&transactionDate!=null&&transactionDescription!=null)
 			{
-				request.setAttribute("success", "Successfully Added a new member");
-				RequestDispatcher rd=request.getRequestDispatcher("DashboardW3.jsp");
+				String result = ModelDao.updateReceipt(balanceBean,memberId, memberName, transactionHead, paymentValue, transactionDate, transactionDescription);
+				
+				if(result.equals("success"))
+				{
+					request.setAttribute("success", "Successfully Added a new member");
+					RequestDispatcher rd=request.getRequestDispatcher("DashboardW3.jsp");
+					rd.forward(request, response);
+				}
+			}
+			else{
+				System.out.println("Some Error Has Occured");
+				request.setAttribute("error_check", "Problem with input params");
+				RequestDispatcher rd=request.getRequestDispatcher("Error.jsp");
 				rd.forward(request, response);
 			}
 			
 		}
-		
-		
 		
 		if(request.getRequestURI().contains("addAdminUser"))
 		{
@@ -224,21 +251,27 @@ public class Controller extends HttpServlet {
 			if(result.contains("success")){
 				System.out.println("result is equal to success");
 				HttpSession session = request.getSession(true);
-				session.setMaxInactiveInterval(180);
+				session.setMaxInactiveInterval(10);
 				session.setAttribute("session", "valid_user");
 				request.setAttribute("success", result);
 				//RequestDispatcher rd=request.getRequestDispatcher("NewDashboard.jsp");
+				AuditDao.addSuccessDataToMongo(request.getParameter("username"));
+				Cookie cookie = new Cookie("authentic", request.getParameter("username"));
+				cookie.setMaxAge(20);
+				response.addCookie(cookie);
 				RequestDispatcher rd=request.getRequestDispatcher("DashboardW3.jsp");
 				rd.forward(request, response);
 				
 			}else if (result.contains("error: Invalid Password for the user")) {
 				request.setAttribute("error", result);
+				AuditDao.addFailureDataToMongo(request.getParameter("username"),result);
 				RequestDispatcher rd=request.getRequestDispatcher("AdminLogin.jsp");
 				rd.forward(request, response);
 			}
 			else{			
 				request.setAttribute("error", result);
-				RequestDispatcher rd=request.getRequestDispatcher("Result.jsp");
+				AuditDao.addFailureDataToMongo(request.getParameter("username"),result);
+				RequestDispatcher rd=request.getRequestDispatcher("AdminLogin.jsp");
 				rd.forward(request, response);
 			}
 		
@@ -247,7 +280,8 @@ public class Controller extends HttpServlet {
 		if(request.getRequestURI().contains("addNewMember"))
 		{
 			System.out.println("requestURI ==>"+request.getRequestURI());
-			
+			HttpSession session= request.getSession(true);
+			session.setAttribute("session", "valid_user");
 			String memberId = request.getParameter("memberId");
 			String memberName = request.getParameter("memberName");
 			String memberContact = request.getParameter("memberContact");
@@ -269,7 +303,13 @@ public class Controller extends HttpServlet {
 		/*
     	 * ==========================END POST REQUESTS======================================================
     	 */
-		
+    }
+    catch (Exception e) {
+		System.out.println("Some Error Has Occured");
+		request.setAttribute("error_check", e.getMessage());
+		RequestDispatcher rd=request.getRequestDispatcher("Error.jsp");
+		rd.forward(request, response);
+	}
 		
     	
     }

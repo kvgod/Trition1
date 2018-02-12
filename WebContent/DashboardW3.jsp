@@ -14,26 +14,32 @@
 
 <style>
 body {font-family: "Roboto", sans-serif}
-.w3-bar-block .w3-bar-item{padding:16px;font-weight:bold}
+.w3-bar-block .w3-bar-item{padding:8px;font-weight:bold}
 </style>
 <body>
 <%
 
 HttpSession sess = request.getSession();
 System.out.println("session.getAttribute(session)"+session.getAttribute("session"));
+Cookie ck[]=request.getCookies(); 
+
+for(int i=0;i<ck.length;i++){  
+ System.out.println("<br>"+ck[i].getName()+" "+ck[i].getValue());//printing name and value of cookie  
+}  
 if(session.getAttribute("session")!=null)
 {
 %>
 
-<nav class="w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card" style="z-index:3;width:250px;" id="mySidebar">
-  <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="#"><img src="logo.png" style="width:60%;"></a>
+
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card" style="z-index:3;width:230px;" id="mySidebar">
+  <a class="w3-bar-item w3-button w3-border-bottom w3-medium" href="#">     <img class="w3-circle" src="asset/admin.png" style="width:60%;" class="w3-circle"></a>
   <a class="w3-bar-item w3-button w3-hide-large w3-large" href="javascript:void(0)" onclick="w3_close()">Close <i class="fa fa-remove"></i></a>
   <a class="w3-bar-item w3-button w3-teal" href="#">Home</a>
   <a class="w3-bar-item w3-button" href="#">Link 1</a>
   <div>
     <a class="w3-bar-item w3-button" onclick="myAccordion('demo')" href="javascript:void(0)">Receipts <i class="fa fa-caret-down"></i></a>
     <div id="demo" class="w3-hide">
-      <a class="w3-bar-item w3-button" href="">Quick Monthly Thrift</a>
+      <a class="w3-bar-item w3-button" href="#">Quick Monthly Thrift</a>
       <a class="w3-bar-item w3-button" href="#">Link</a>
       <a class="w3-bar-item w3-button" href="#">Link</a>
     </div>
@@ -169,6 +175,7 @@ function myAccordion(id) {
     }
 }
 </script>
+
 
 <%
 }

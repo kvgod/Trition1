@@ -201,39 +201,39 @@ if(session.getAttribute("session")!=null){
 					<div class="form-group">
 						<label for="id">Id</label> <input
 							type="text" class="form-control" id="id" name="memberId"
-							placeholder=" Id">
+							placeholder=" Id" required>
 					</div>
 
 
 					<div class="form-group">
 						<label for="exampleInputUsername">Your name</label> <input
 							type="text" class="form-control" id="name" name="memberName"
-							placeholder=" Enter Name" >
+							placeholder=" Enter Name" required>
 					</div>
 
 
 					<div class="form-group">
 						<label for="telephone">Mobile No.</label> <input type="text"
 							class="form-control" id="telephone" name=memberContact
-							placeholder=" Enter 10-digit mobile no.">
+							placeholder=" Enter 10-digit mobile no." required>
 					</div>
 
 					<div class="form-group">
 						<label for="emailid">Email Id</label> <input type="text"
 							class="form-control" name="Email" id="emailid"
-							placeholder=" Enter Email id">
+							placeholder=" Enter Email id" required>
 					</div>
 										
 					<div class="form-group">
 						<label for="address">Address</label> <textarea type="text"
 							class="form-control" name="address" id="address"
-							placeholder=" Address"></textarea>
+							placeholder=" Address" required></textarea>
 					</div>
        
                     <div class="form-group">
 					 <label for="dob">Date of Birth</label> 
                 <div class='input-group date' id='datetimepicker1'>
-                   <input type="date" class="form-control" name="dateOfBirth" id="dob"/>
+                   <input type="date" class="form-control" name="dateOfBirth" id="dob" required/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>

@@ -112,24 +112,27 @@ if(session.getAttribute("session")!=null){
 
 <%
 List<BalanceSheetBean> result = (List)request.getAttribute("member_details");
-request.setAttribute("member_balance_sheet", result);
+request.getSession(true).setAttribute("member_balance_sheet", result);
+String memberId = result.get(0).getMemberId();
+String memberName = result.get(0).getMemberName();
 %>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6 col-sm-6 col-xs-12 form-line">
 				<form name="receiptCheck" method="post" action="receiptCheck">
 				
+				
 					<div class="form-group">
-						<label for="id">Id</label> <input disabled 
+						<label for="id">Id</label> <input  
 							type="text" class="form-control" id="id" name="memberId"
-							placeholder=" Id" value ="<%=result.get(0).getMemberId()%>">
+							placeholder=" Id" value ="<%=memberId%>">
 					</div>
 
 
 					<div class="form-group">
-						<label for="exampleInputUsername">Member name</label> <input disabled 
+						<label for="exampleInputUsername">Member name</label> <input 
 							type="text" class="form-control" id="name" name="memberName"
-							placeholder=" Enter Name" value ="<%=result.get(0).getMemberName()%>">
+							placeholder=" Enter Name" value ="<%=memberName%>">
 					</div>
 					
 					<div class="form-group">
@@ -138,7 +141,7 @@ request.setAttribute("member_balance_sheet", result);
 							<option value="-1">Select head</option>
   							<option value="monthly_thrift">Monthly Thrift</option>
 							<option value="loan_repayment">Loan Repayment</option>
-							<option value="#">#</option>
+							<option value="share_capital">Share Capital</option>
 							<option value="#">#</option>
 						</select>
 					</div>

@@ -112,7 +112,7 @@ List<BalanceSheetBean> result = (List)request.getAttribute("member_details");
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6 col-sm-6 col-xs-12 form-line">
-				<form name="registration" method="post" action="#">
+				<form name="registration" method="post" action="updateBalanceSheet">
 				
 					<div class="form-group">
 						<label for="id">Id</label> <input disabled 
